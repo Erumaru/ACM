@@ -34,27 +34,29 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
-map <ll, ll> mk;
-ll n;
+int n, a[10010];
+ll dp[10010];
 
-ll go (ll n)
+void solve(int test)
 {
-	if (n == 0) return 0;
-	if (mk.count(n)) return mk[n];
-	return mk[n] = max(n, go(n / 2) + go(n / 3) + go(n / 4));
-} 
+	scanf("%d", &n);
+	for (int i = 1; i <= n; i ++) scanf("%d", a + i);
+	for (int i = 1; i <= n; i ++) dp[i] = 0;
+	dp[1] = a[1];
+	for (int i = 2; i <= n; i ++)
+	{
+		dp[i] = max(dp[i - 1], dp[i - 2] + a[i]);
+	}
 
-void solve()
-{
-	mk.clear();
-	printf("%lld\n", go(n));
+	printf("Case %d: %lld\n", test, dp[n]);
 }
 
 int test;
 
 int main ()
 {      
-	while (~scanf("%lld", &n)) solve();
+	scanf("%d", &test);
+	for (int i = 1; i <= test; i ++) solve(i);	
 }
 
 

@@ -34,27 +34,36 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
-map <ll, ll> mk;
-ll n;
-
-ll go (ll n)
-{
-	if (n == 0) return 0;
-	if (mk.count(n)) return mk[n];
-	return mk[n] = max(n, go(n / 2) + go(n / 3) + go(n / 4));
-} 
-
-void solve()
-{
-	mk.clear();
-	printf("%lld\n", go(n));
-}
-
-int test;
+int n, p[1001], a[1001];
 
 int main ()
 {      
-	while (~scanf("%lld", &n)) solve();
+	while (~scanf("%d", &n))
+	{
+		if (n == 0) return 0;
+		for (int i = 1; i <= n; i ++) scanf("%d", a + i);
+		int pos = 0, cur = 1, i = 1;
+		while (true)
+		{
+			while (pos > 0 && p[pos - 1] == cur) pos --, cur ++;
+			if (i == n + 1 && pos == 0)
+			{
+				cout << "yes\n";
+				break;
+			}
+			if (i == n + 1 && p[pos - 1] != cur)
+			{
+				cout << "no\n";
+				break;
+			}
+			if (a[i] == cur) cur ++;
+			else
+			{
+				p[pos ++] = a[i];
+			}
+			i ++;
+		}
+	}		
 }
 
 

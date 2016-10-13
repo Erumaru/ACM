@@ -34,27 +34,39 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
-map <ll, ll> mk;
-ll n;
+int mx, n, id;
+vector <int> g[10010];
 
-ll go (ll n)
+void dfs(int v, int p, int lvl)
 {
-	if (n == 0) return 0;
-	if (mk.count(n)) return mk[n];
-	return mk[n] = max(n, go(n / 2) + go(n / 3) + go(n / 4));
-} 
-
-void solve()
-{
-	mk.clear();
-	printf("%lld\n", go(n));
+	if (mx < lvl)
+	{
+		mx = lvl;
+		id = v;
+	}
+	for (int i = 0; i < sz(g[v]); i ++)
+	{
+		int to = g[v][i];
+		if (to != p)
+		{
+			dfs(to, v, lvl + 1);
+		}
+	}
 }
-
-int test;
 
 int main ()
 {      
-	while (~scanf("%lld", &n)) solve();
+	scanf("%d", &n);
+	for (int i = 1, a, b; i < n; i ++)
+	{
+		scanf("%d%d", &a, &b);
+		g[a].pb(b);
+		g[b].pb(a);
+	}	
+	dfs(1, -1, 0);
+	mx = 0;
+	dfs(id, -1, 0);
+	printf("%d", mx);
 }
 
 

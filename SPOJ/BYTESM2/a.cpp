@@ -34,27 +34,42 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
-map <ll, ll> mk;
-ll n;
-
-ll go (ll n)
-{
-	if (n == 0) return 0;
-	if (mk.count(n)) return mk[n];
-	return mk[n] = max(n, go(n / 2) + go(n / 3) + go(n / 4));
-} 
+int h, w, a[110][110], dp[110][110];
 
 void solve()
 {
-	mk.clear();
-	printf("%lld\n", go(n));
+	scanf("%d %d", &h, &w);
+	for (int i = 1; i <= h; i ++)
+	{
+		for (int j = 1; j <= w; j ++)
+		{
+			scanf("%d", &a[i][j]);
+		}
+	}	
+
+	memset(dp, 0, sizeof dp);
+	for (int i = 1; i <= h; i ++)
+	{
+		for (int j = 1; j <= w; j ++)
+		{
+			dp[i][j] = max(dp[i][j], dp[i - 1][j]);
+			dp[i][j] = max(dp[i][j], dp[i - 1][max(1, j - 1)]);
+			dp[i][j] = max(dp[i][j], dp[i - 1][min(w, j + 1)]);
+			dp[i][j] += a[i][j];
+		}
+	}
+
+	int ans = 0;
+	for (int i = 1; i <= w; i ++) ans = max(ans, dp[h][i]);
+	printf("%d\n", ans);
 }
 
 int test;
 
 int main ()
 {      
-	while (~scanf("%lld", &n)) solve();
+	scanf("%d", &test);
+	for (int i = 1; i <= test; i ++) solve();	
 }
 
 

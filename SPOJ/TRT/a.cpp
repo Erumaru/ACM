@@ -34,27 +34,23 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
-map <ll, ll> mk;
-ll n;
+int n, a[2010];
+ll dp[2010][2010];
 
-ll go (ll n)
+ll go (int l, int r)
 {
-	if (n == 0) return 0;
-	if (mk.count(n)) return mk[n];
-	return mk[n] = max(n, go(n / 2) + go(n / 3) + go(n / 4));
-} 
-
-void solve()
-{
-	mk.clear();
-	printf("%lld\n", go(n));
+	if (l == r) return a[l] * (n);
+	if (dp[l][r] != -1) return dp[l][r];
+	int time = (n - r) + l;
+	return dp[l][r] = max(go(l + 1, r) + a[l] * time, go(l, r - 1) + a[r] * time);
 }
-
-int test;
 
 int main ()
 {      
-	while (~scanf("%lld", &n)) solve();
+	scanf("%d", &n);
+	for (int i = 1; i <= n; i ++) scanf("%d", a + i);
+	memset(dp, -1, sizeof dp);
+	printf("%lld\n", go(1, n));	
 }
 
 

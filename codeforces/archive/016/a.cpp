@@ -34,55 +34,38 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
-bool p[100100], d[100100];
-vector <int> v;
-int l, r;
-
-void solve()
+int op(int a, int b, int c)
 {
-	scanf("%d%d", &l, &r);
-
-	memset(d, false, sizeof d);
-	for (int i = 0; i < sz(v); i ++)
-	{
-		int cur = v[i];
-		int L = (l / cur + (l % cur != 0)) * cur;
-		if (cur > r) break;
-		for (int j = L; j <= r; j += cur)
-		{
-			if (j != cur) 
-			{
-				d[j - l] = true;
-			}
-		}
-	}
- 
-	for (int i = 0; i < r - l + 1; i ++)
-	{
-		if (!d[i] && i + l != 1) printf("%d\n", i + l);
-	}
+	if (c == 1) return a + b;
+	else if (c == 2) return a * b;
+	else if (c == 3) return a / b;
+	else return a - b;
 }
 
-int test;
+vector <int> v;
+
+bool go(int res, int ind)
+{
+	if (ind == 8)
+	{
+		return (res == 159);
+	}
+
+	for (int i = 1; i <= 4; i ++)
+	{
+		if (i == 3 && res % 4) continue;
+		if (go(op(res, 4, i), ind + 1)) 
+		{
+			cout << i << " ";
+			return true; 
+		}
+	}
+	return false;
+}
 
 int main ()
 {      
-	scanf("%d", &test);
-	for (int i = 2; i <= 1e5; i ++)
-	{
-		if (!p[i])
-		{
-			for (int j = i + i; j <= 1e5; j += i) p[j] = true;
-		}
-	}
-
-	for (int i = 2; i <= 1e5; i ++) if (!p[i]) v.pb(i);
-
-	for (int i = 1; i <= test; i ++) 
-	{
-		solve();
-		if (i != test) printf("\n");
-	}
+	go(4, 1);
 }
 
 

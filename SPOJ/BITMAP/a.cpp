@@ -44,17 +44,12 @@ bool ok (int x, int y)
 	return x >= 0 && x < n && y >= 0 && y < m;
 }
 
-void dfs(int x, int y, int k)
+struct node
 {
-	if (!ok(x, y)) return;
-	if (dp[x][y] != -1 && dp[x][y] <= k) return;
-	dp[x][y] = k;
-	for (int i = 0; i < 4; i ++)
-	{
-		int xx = dx[i] + x, yy = y + dy[i];
-		dfs(xx, yy, k + 1);
-	}
-}
+	int x, y, z;
+	node(){}
+	node(int x, int y, int z) : x(x), y(y), z(z) {}
+} q[500 * 500];
 
 void solve()
 {
@@ -64,11 +59,26 @@ void solve()
 		scanf("%s", s[i]);
 		for (int j = 0; j < m; j ++) dp[i][j] = -1;
 	}
+	
+	int qt = 0, qh = 0;
 	for (int i = 0; i < n; i ++)
 	{
 		for (int j = 0; j < m; j ++)
 		{
-			if (s[i][j] == '1') dfs(i, j, 0);
+			if (s[i][j] == '1') q[qt ++] = node(i, j, 0);
+		}
+	}
+
+	while (qh < qt)
+	{
+		node cur = q[qh ++];
+		if (!ok(cur.x, cur.y)) continue;
+		if (dp[cur.x][cur.y] != -1 && dp[cur.x][cur.y] <= cur.z) continue;
+		dp[cur.x][cur.y] = cur.z;
+		for (int i = 0; i < 4; i ++)
+		{
+			int xx = cur.x + dx[i], yy = cur.y + dy[i];
+			q[qt ++] = node(xx, yy, cur.z + 1);
 		}
 	}
 

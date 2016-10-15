@@ -24,6 +24,7 @@
 #define sz(n) int(n.size())
 #define all(n) n.begin(), n.end()
 
+
 using namespace std;
 
 typedef long long ll;
@@ -33,23 +34,36 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
-int n, a[600100];
-ll M;
+vector <int> zf(const string &s)
+{
+	int n = sz(s);
+	vector <int> z(n);
+	for (int i = 1, j = 0; i < n; i ++)
+	{
+		if (i <= j + z[j]) z[i] = min(z[i - j], z[j] + j - i);
+		while (z[i] + i < n && s[z[i]] == s[z[i] + i]) z[i] ++;
+		if (i + z[i] > j + z[j]) j = i;
+	}
+	return z;
+}
+
+string s, t;
+int n;
 
 int main ()
 {      
-	scanf("%d%lld", &n, &M);
-	for (int i = 1; i <= n; i ++) scanf("%d", a + i);
-	for (int i = 1; i <= n; i ++) a[i + n] = a[i]; 
-	ll cur = 0, ans = 0;
-	for (int i = 1, j = 1; i <= n; i ++)
+	while (cin >> n)
 	{
-		cur += a[i];
-		while ((j <= i && cur > M) || (i - j + 1) > n) cur -= a[j ++];
-		ans = max(ans, cur);
+		cin >> s >> t;
+		string p = s + "#" + t;
+		vector <int> z = zf(p);
+		for (int i = 1; i < sz(p); i ++)
+		{
+			if (z[i] == sz(s)) cout << i - sz(s) - 1 << "\n";
+		}
+		cout << "\n";
 	}
 
-	printf("%lld\n", ans);
 }
 
 

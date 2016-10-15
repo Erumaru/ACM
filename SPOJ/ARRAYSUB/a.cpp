@@ -24,6 +24,7 @@
 #define sz(n) int(n.size())
 #define all(n) n.begin(), n.end()
 
+
 using namespace std;
 
 typedef long long ll;
@@ -33,23 +34,25 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
-int n, a[600100];
-ll M;
+int n, k, a[1001000], p[1001000];
 
 int main ()
 {      
-	scanf("%d%lld", &n, &M);
+	scanf("%d", &n);
 	for (int i = 1; i <= n; i ++) scanf("%d", a + i);
-	for (int i = 1; i <= n; i ++) a[i + n] = a[i]; 
-	ll cur = 0, ans = 0;
-	for (int i = 1, j = 1; i <= n; i ++)
-	{
-		cur += a[i];
-		while ((j <= i && cur > M) || (i - j + 1) > n) cur -= a[j ++];
-		ans = max(ans, cur);
-	}
+	scanf("%d", &k);
 
-	printf("%lld\n", ans);
+	int h = 0, t = 0;
+	for (int i = 1; i <= n; i ++)
+	{
+		while (h < t && p[t - 1] < a[i]) t --;
+		p[t ++] = a[i];
+		if (i >= k)
+		{
+			printf("%d ", p[h]);
+			if (p[h] == a[i - k + 1]) h ++;
+		} 
+	}	
 }
 
 

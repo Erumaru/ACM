@@ -262,13 +262,19 @@ int main ()
 	{
 		int added = 0;
 		if (i) added = min(num[i - 1], lcp[i - 1]);
+		
 		int l = added, r = len[i], cur = added;
-		while (l <= r)
+		for (int j = l; j <= r; j ++)
+		{
+			if (ok(j, i)) cur = j;
+			else break;
+		}
+		/*while (l <= r)
 		{
 			int mid = (l + r) / 2;
 			if (ok(mid, i)) cur = mid, l = mid + 1;
 			else r = mid - 1;
-		}
+		}*/
 		ans += cur - added;
 		num[i] = max(cur, added);
 	}

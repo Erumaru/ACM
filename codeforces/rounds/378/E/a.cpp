@@ -17,8 +17,8 @@
 #include <map>
 #include <set>
 
-#define f first
-#define s second
+#define ft first
+#define st second
 #define mp make_pair
 #define pb push_back
 #define sz(n) int(n.size())
@@ -31,12 +31,16 @@ typedef long long ll;
 typedef pair<int,int> pii;
 
 const int N = 1e5 + 123;
-const int inf = 1e9 + 7;
+const int inf = 1e9;
 const ll INF = 1e18 + 7;
 
 int main ()
 {      
-	
+	cout << "100000\n";
+	for (int i = 1; i <= 100000; i ++)
+	{
+		cout << rand() % inf + 1 << " " << rand() % inf + 1 << " " << rand() % inf + 1 << "\n";
+	}
 }
 
 

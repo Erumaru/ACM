@@ -17,8 +17,8 @@
 #include <map>
 #include <set>
 
-#define f first
-#define s second
+#define ft first
+#define st second
 #define mp make_pair
 #define pb push_back
 #define sz(n) int(n.size())
@@ -34,9 +34,51 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
+int n;
+ll a[100100], id, sum, x, mx;
+
 int main ()
 {      
-	
+	scanf("%d", &n);
+	for (int i = 1; i <= n; i ++) 
+	{
+		scanf("%lld", a + i);
+		x ^= a[i];
+		sum += a[i];
+	}
+
+
+	if (x == 0)
+	{
+		ll p = 1;
+		while (true)
+		{
+			for (int i = 1; i <= n; i ++)
+			{
+				if (a[i] % p)
+				{
+					cout << sum << "\n";
+					cout << i << " " << 1 << "\n";
+					return 0;
+				}
+			}
+			p *= 2;
+		}
+	}
+
+	for (int i = 1; i <= n; i ++)
+	{
+		ll cur = x ^ a[i];
+		if (cur < a[i] && a[i] - cur > mx)
+		{
+			mx = a[i] - cur;
+			id = i;
+		}
+	}
+
+	cout << sum  - mx + 1 << "\n";
+	cout << id << " " << mx<< "\n";
+
 }
 
 

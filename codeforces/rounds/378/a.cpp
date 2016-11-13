@@ -17,8 +17,8 @@
 #include <map>
 #include <set>
 
-#define f first
-#define s second
+#define ft first
+#define st second
 #define mp make_pair
 #define pb push_back
 #define sz(n) int(n.size())

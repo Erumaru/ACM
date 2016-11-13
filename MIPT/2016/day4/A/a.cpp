@@ -24,7 +24,6 @@
 #define sz(n) int(n.size())
 #define all(n) n.begin(), n.end()
 
-
 using namespace std;
 
 typedef long long ll;
@@ -36,7 +35,33 @@ const ll INF = 1e18 + 7;
 
 int main ()
 {      
-	
+	scanf("%d%d%d", &n, &m, &r);
+
+	for (int i = 1; i <= n; i ++)
+	{
+		for (int j = 1; j <= m; j ++) 
+		{
+			scanf("%d", &b[i][j]);
+		}
+	}
+
+	for (int i = 1; i <= n; i ++)
+	{
+		for (int j = 1; j <= m; j ++)
+		{
+			scanf("%d", &w[i][j]);
+		}
+	}
+
+	for (int i = 1; i <= r; i ++)
+	{
+		for (int j = 1; j <= 6; j ++) 
+		{
+			scanf("%d", &p[i][j]);
+		}	
+	}
+
+		
 }
 
 

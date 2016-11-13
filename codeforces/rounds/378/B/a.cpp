@@ -17,8 +17,8 @@
 #include <map>
 #include <set>
 
-#define f first
-#define s second
+#define ft first
+#define st second
 #define mp make_pair
 #define pb push_back
 #define sz(n) int(n.size())
@@ -34,9 +34,33 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
+ll n, L, R, l[100100], r[100100], ans, id;
+
 int main ()
 {      
-	
+	cin >> n;
+	for (int i = 1; i <= n; i ++)
+	{
+		cin >> l[i] >> r[i];
+		L += l[i];
+		R += r[i];
+	}	
+
+	ans = abs(L - R);
+
+	for (int i = 1; i <= n; i ++)
+	{
+		ll curL = L - l[i], curR = R - r[i];
+		ll curRow = l[i] + r[i];
+		ll curAns = abs((curL + r[i]) - (curR + l[i]));
+		if (curAns > ans)
+		{
+			ans = curAns;
+			id = i;
+		}
+	}
+
+	cout << id << "\n";
 }
 
 

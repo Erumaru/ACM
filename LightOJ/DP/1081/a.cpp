@@ -34,27 +34,23 @@ const int N = 1e5 + 123;
 const int inf = 1e9 + 7;
 const ll INF = 1e18 + 7;
 
-int n, q, a[510][510], table[9][9][500][500], two[502];
+int n, q, table[9][501][501], two[502];
 
 void make_sparse()
 {
 	two[0] = -1;
 	for (int i = 1; i <= n; i ++) two[i] = 1 + two[i / 2];
 
-	for (int lvl1 = 0; (1 << lvl1) <= n; lvl1 ++)
+	for (int lvl = 1; (1 << lvl) <= n; lvl ++)
 	{
-		for (int lvl2 = 0; (1 << lvl2) <= n; lvl2 ++)
+		for (int x = 1; x <= n; x ++)
 		{
-			for (int i = 1; i <= n; i ++)
+			for (int y = 1; y <= n; y ++)
 			{
-				for (int j = 1; j <= n; j ++)
-				{
-					if (lvl1 == 0 && lvl1 == lvl2) continue;
-					if (lvl1 > lvl2) table[lvl1][lvl2][i][j] = 
-						max(table[lvl1 - 1][lvl2][i][j], table[lvl1 - 1][lvl2][i + (1 << (lvl1 - 1))][j]);
-					else table[lvl1][lvl2][i][j] = 
-						max(table[lvl1][lvl2 - 1][i][j], table[lvl1][lvl2 - 1][i][j + (1 << (lvl2 - 1))]);
-				}
+				int x2 = x + (1 << lvl) - 1, y2 = y + (1 << lvl) - 1;
+				table[lvl][x][y] = max(max(table[lvl - 1][x][y], table[lvl - 1][x2 - (1 << (lvl - 1)) + 1][y]),
+					max(table[lvl - 1][x][y2 - (1 << (lvl - 1)) + 1], 
+						table[lvl - 1][x2 - (1 << (lvl - 1)) + 1][y2 - (1 << (lvl - 1)) + 1]));
 			}
 		}
 	}
@@ -64,8 +60,8 @@ int get(int x, int y, int s)
 {
 	int lvl = two[s];
 	int x2 = x + s - 1, y2 = y + s - 1;
-	return max(max(table[lvl][lvl][x][y], table[lvl][lvl][x2 - (1 << lvl) + 1][y]),
-		max(table[lvl][lvl][x][y2 - (1 << lvl) + 1], table[lvl][lvl][x2 - (1 << lvl) + 1][y2 - (1 << lvl) + 1]));
+	return max(max(table[lvl][x][y], table[lvl][x2 - (1 << lvl) + 1][y]),
+		max(table[lvl][x][y2 - (1 << lvl) + 1], table[lvl][x2 - (1 << lvl) + 1][y2 - (1 << lvl) + 1]));
 }
 
 void solve(int test)
@@ -77,8 +73,7 @@ void solve(int test)
 	{
 		for (int j = 1; j <= n; j ++)
 		{
-			scanf("%d", &a[i][j]);
-			table[0][0][i][j] = a[i][j];
+			scanf("%d", &table[0][i][j]);
 		}
 	}
 
